@@ -1,11 +1,11 @@
-(ns terminus.core-test
+(ns terminus.query-test
   (:require
    [clojure.test :refer [deftest testing is]]
-   [terminus.core :as terminus]))
+   [terminus.query :as q]))
 
 (deftest query-translating
   (testing "Can parse queries from datalog to WOQL"
-    (is (= (terminus/parse-query
+    (is (= (q/parse-query
              '[:find ?x ?y
                :in $ ?foo
                :where
@@ -17,7 +17,7 @@
             :query '([?x :thing ?y]
                      [?y :beep ?foo])}))
 
-    (is (= (terminus/parse-query
+    (is (= (q/parse-query
              '[:find ?x ?y
                :where
                [?x :thing ?y]

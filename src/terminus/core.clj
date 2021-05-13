@@ -18,32 +18,6 @@
       (->> (.encode (Base64/getEncoder)))
       (String. StandardCharsets/UTF_8)))
 
-(defn parse-query
-  "Take a query as clojure data & convert it to WOQL.
-  https://terminusdb.com/docs/terminushub/reference/server/woql/"
-  [q]
-  (let [type (first q)
-        [vars more] (split-with (complement keyword?) (rest q))
-        [ins [_ & query]]
-        (if (= :in (first more))
-          (split-with (complement keyword?) (rest more))
-          [[] more])]
-    {:type type
-     :vars vars
-     :in ins
-     :query query}))
-
-(comment
-
-  (parse-query
-    '[:find ?x ?y
-      :in $ ?foo
-      :where
-      [?x :thing ?y]
-      [?y :beep ?foo]])
-
-  )
-
 (defprotocol TerminusClient
   (_connect [_ args])
   (_close [_])
